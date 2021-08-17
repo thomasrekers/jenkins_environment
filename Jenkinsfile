@@ -4,9 +4,14 @@ pipeline {
         HOME = '.'
     }
     stages {
-        stage('Test') {
+        stage('Build') {
             steps {
                 sh 'npm i'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'npm test'
             }
         }
     }
