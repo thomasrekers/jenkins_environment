@@ -3,13 +3,8 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                sh 'npm i && npm run test'
+                sh 'npm i'
             }
-        }
-    }
-    post {
-        always {
-            junit 'build/reports/**/*.xml'
         }
     }
 }
