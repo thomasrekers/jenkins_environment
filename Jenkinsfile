@@ -11,13 +11,13 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'npm test'
+                sh 'npm i -g npm-audit-html && npm audit --json | npm-audit-html'
             }
         }
     }
     post {
         always {
-            junit 'build/reports/**/*.xml'
+            junit 'npm-audit.html'
         }
     }
 }
