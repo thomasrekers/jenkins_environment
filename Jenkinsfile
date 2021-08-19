@@ -13,6 +13,12 @@ pipeline {
             steps {
                 sh 'npm i -g npm-audit-html && npm audit --json | npm-audit-html'
 
+                script {
+                    def output = sh script: "npm audit", returnStdout: true
+                    // def summary = output.split("\n")[-1] //get the summary from the last line
+                    echo output
+                }
+
                 publishHTML target: [
                     allowMissing: true,
                     alwaysLinkToLastBuild: true,
