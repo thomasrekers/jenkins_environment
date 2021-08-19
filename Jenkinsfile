@@ -24,6 +24,8 @@ pipeline {
                     echo summary
                 }
 
+                sh 'echo "Failed!"; exit 1'
+
                 publishHTML target: [
                     allowMissing: true,
                     alwaysLinkToLastBuild: true,
