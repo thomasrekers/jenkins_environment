@@ -11,22 +11,22 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'npm i -g npm-audit-html && npm audit --json | npm-audit-html && node test.js'
+                sh 'npm i -g npm-audit-html && npm audit --json | npm-audit-html'
 
-                // publishHTML target: [
-                //     allowMissing: true,
-                //     alwaysLinkToLastBuild: true,
-                //     keepAll: true,
-                //     reportDir: 'coverage',
-                //     reportFiles: 'npm-audit.html',
-                //     reportName: 'RCov Report'
-                // ]
+                publishHTML target: [
+                    allowMissing: true,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: '.',
+                    reportFiles: 'npm-audit.html',
+                    reportName: 'npm vulnerabilities'
+                ]
             }
         }
     }
-    post {
-        always {
-            junit 'test-report.xml'
-        }
-    }
+    // post {
+    //     always {
+    //         junit 'test-report.xml'
+    //     }
+    // }
 }
