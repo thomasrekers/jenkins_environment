@@ -4,5 +4,8 @@
   },
   "devDependencies": {
     "jest": "^27.0.6"
+  },
+  "dependencies": {
+    "junit-report-builder": "^3.0.0"
   }
 }
