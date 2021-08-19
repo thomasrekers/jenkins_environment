@@ -11,22 +11,24 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'npm i -g npm-audit-html && npm audit --json | npm-audit-html'
+                sh 'npm i -g npm-audit-html'
 
                 script {
-                    if (env.BRANCH_NAME == 'master') {
-                        echo 'I only execute on the master branch'
+                    def status_code = sh script: 'npm audit', returnStatus: true
+                    if (status_code == 0) {
+                        println('No critical vulnerabilities!')
                     } else {
-                        echo 'I execute elsewhere'
+                        println('Failed because of critical npm vulnerabilities!')
+                        sh script: 'exit 1'
                     }
-                    def output = sh script: "npm audit", returnStdout: true
-                    def summary = output.split("\n")[0] //get the summary from the last line
-                    echo summary
                 }
-
-                sh 'echo "Failed!"; exit 1'
-
-                publishHTML target: [
+            }
+        }
+    }
+    post {
+        always {
+            sh 'npm audit --json | npm-audit-html'
+            publishHTML target: [
                     allowMissing: true,
                     alwaysLinkToLastBuild: true,
                     keepAll: true,
@@ -34,12 +36,6 @@ pipeline {
                     reportFiles: 'npm-audit.html',
                     reportName: 'npm vulnerabilities'
                 ]
-            }
         }
     }
-    // post {
-    //     always {
-    //         junit 'test-report.xml'
-    //     }
-    // }
 }
