@@ -14,6 +14,11 @@ pipeline {
                 sh 'npm i -g npm-audit-html && npm audit --json | npm-audit-html'
 
                 script {
+                    if (env.BRANCH_NAME == 'master') {
+                        echo 'I only execute on the master branch'
+                    } else {
+                        echo 'I execute elsewhere'
+                    }
                     def output = sh script: "npm audit", returnStdout: true
                     def summary = output.split("\n")[0] //get the summary from the last line
                     echo summary
