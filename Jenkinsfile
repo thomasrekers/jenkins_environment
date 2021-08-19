@@ -17,7 +17,7 @@ pipeline {
     }
     post {
         always {
-            junit 'npm-audit.html'
+            junit 'example.xml'
         }
     }
 }
