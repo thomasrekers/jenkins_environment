@@ -12,12 +12,21 @@ pipeline {
         stage('Test') {
             steps {
                 sh 'npm i -g npm-audit-html && npm audit --json | npm-audit-html'
+
+                publishHTML target: [
+                    allowMissing: true,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: 'coverage',
+                    reportFiles: 'npm-audit.html',
+                    reportName: 'RCov Report'
+                ]
             }
         }
     }
-    post {
-        always {
-            junit 'example.xml'
-        }
-    }
+    // post {
+    //     always {
+    //         junit 'example.xml'
+    //     }
+    // }
 }
